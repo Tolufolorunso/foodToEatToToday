@@ -211,6 +211,8 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
+    position: fixed;
+    bottom: 0;
 }
 
 .footer p {
