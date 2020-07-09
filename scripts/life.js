@@ -26,6 +26,8 @@ const form = document.querySelector("#food-detail");
 form.addEventListener("submit", getDataFromUI);
 document.querySelector("#clear-storage").addEventListener("click", () => {
   localStorage.clear("foodObj");
+  location.reload();
+  return false;
 });
 
 function getDataFromUI(e) {
@@ -59,7 +61,7 @@ const timeToEat = () => {
   let foodType;
   let foodName;
   const dbData = dataFromDB.filter((item) => {
-    if (hrs == 9 && ap == "AM" && item.foodType == "Breakfast") {
+    if (hrs == 8 && ap == "AM" && item.foodType == "Breakfast") {
       foodType = item.foodType;
       foodName = item.foodName;
       imgUrl = "images/bg.jpg";
@@ -86,12 +88,15 @@ const htmlTemplate = (dbData) => {
     foodType = dbData[0].foodType;
     foodName = dbData[0].foodName;
     if (foodType === "Breakfast") {
+      showMessage(foodName, foodType);
       imgUrl = "images/bg.jpg";
     }
     if (foodType === "Lunch") {
+      showMessage(foodName, foodType);
       imgUrl = "images/wedding.jpg";
     }
     if (foodType === "Dinner") {
+      showMessage(foodName, foodType);
       imgUrl = "images/picture-136.png";
     }
   }
@@ -125,6 +130,8 @@ const addFoodTimeTableToStorage = (obj) => {
   timeTableDB.push(obj);
 
   localStorage.setItem("foodObj", JSON.stringify(timeTableDB));
+  location.reload();
+  return false;
 };
 
 //Get Food time table from storage
@@ -138,6 +145,25 @@ const getFoodTimeTablefromStorage = () => {
     foodObj = JSON.parse(LS);
   }
   return foodObj;
+};
+
+const showMessage = (foodName, foodType) => {
+  const messageBox = document.querySelector(".message");
+  messageBox.innerHTML = `
+   <table>
+   <tr>
+   <th>Food type</th>
+   <th>Food name</th>
+   <th>Time to eat</th>
+   </tr>
+   <tr>
+   <td>${foodType}</td>
+   <td>${foodName}</td>
+   <td>9PM</td>
+   </tr>
+   </table>
+  `;
+  console.log(messageBox);
 };
 
 timeToEat();

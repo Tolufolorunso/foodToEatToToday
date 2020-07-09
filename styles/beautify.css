@@ -203,6 +203,18 @@ body {
     }
 }
 
+.message {
+    margin: 0 auto;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    padding: 15px;
+}
+
 .footer {
     background: #072c3d;
     color: #fff;
@@ -211,8 +223,9 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
-    position: fixed;
-    bottom: 0;
+    /* margin-top: 60px; */
+    /* position: fixed;
+    bottom: 0; */
 }
 
 .footer p {
