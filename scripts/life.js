@@ -24,21 +24,17 @@ function timeSetUP() {
 
 const form = document.querySelector("#food-detail");
 form.addEventListener("submit", getDataFromUI);
-document.querySelector("#clear-storage").addEventListener("click", () => {
-  localStorage.clear("foodObj");
-  location.reload();
-  return false;
-});
 
 function getDataFromUI(e) {
   e.preventDefault();
+  let timeToEat = +document.querySelector("#time-to-eat").value;
   let foodName = document.querySelector("#food-name").value;
   let foodType = form.querySelector("#food-type").value;
-  if (foodName === "" || foodType === "") {
+  if (foodName === "" || foodType === "" || timeToEat === "") {
     alert("You need to add Something");
     return;
   }
-  let foodTimeTable = { foodName, foodType };
+  let foodTimeTable = { foodName, foodType, timeToEat };
   addFoodTimeTableToStorage(foodTimeTable);
   document.querySelector("#food-name").value = "";
 }
@@ -55,22 +51,30 @@ const getTime = () => {
 
 const timeToEat = () => {
   const dataFromDB = getFoodTimeTablefromStorage();
-
+  showFoodTable(dataFromDB);
   let { hrs, ap } = timeSetUP();
   let imgUrl;
   let foodType;
   let foodName;
   const dbData = dataFromDB.filter((item) => {
-    if (hrs == 8 && ap == "AM" && item.foodType == "Breakfast") {
+    if (hrs == item.timeToEat && ap == "AM" && item.foodType == "Breakfast") {
       foodType = item.foodType;
       foodName = item.foodName;
       imgUrl = "images/bg.jpg";
       return { foodType, foodName, imgUrl };
-    } else if (hrs == 2 && ap == "PM" && item.foodType == "Lunch") {
+    } else if (
+      hrs == item.timeToEat &&
+      ap == "PM" &&
+      item.foodType == "Lunch"
+    ) {
       foodType = item.foodType;
       foodName = item.foodName;
       return { foodType, foodName };
-    } else if (hrs == 8 && ap == "PM" && item.foodType == "Dinner") {
+    } else if (
+      hrs == item.timeToEat &&
+      ap == "PM" &&
+      item.foodType == "Dinner"
+    ) {
       foodType = item.foodType;
       foodName = item.foodName;
       return { foodType, foodName };
@@ -88,15 +92,12 @@ const htmlTemplate = (dbData) => {
     foodType = dbData[0].foodType;
     foodName = dbData[0].foodName;
     if (foodType === "Breakfast") {
-      showMessage(foodName, foodType);
       imgUrl = "images/bg.jpg";
     }
     if (foodType === "Lunch") {
-      showMessage(foodName, foodType);
       imgUrl = "images/wedding.jpg";
     }
     if (foodType === "Dinner") {
-      showMessage(foodName, foodType);
       imgUrl = "images/picture-136.png";
     }
   }
@@ -130,6 +131,7 @@ const addFoodTimeTableToStorage = (obj) => {
   timeTableDB.push(obj);
 
   localStorage.setItem("foodObj", JSON.stringify(timeTableDB));
+  alert(`${obj.foodType} successfully added`);
   location.reload();
   return false;
 };
@@ -147,24 +149,39 @@ const getFoodTimeTablefromStorage = () => {
   return foodObj;
 };
 
-const showMessage = (foodName, foodType) => {
-  const messageBox = document.querySelector(".message");
-  messageBox.innerHTML = `
-   <table>
-   <tr>
-   <th>Food type</th>
-   <th>Food name</th>
-   <th>Time to eat</th>
-   </tr>
-   <tr>
-   <td>${foodType}</td>
-   <td>${foodName}</td>
-   <td>9PM</td>
-   </tr>
-   </table>
-  `;
-  console.log(messageBox);
+//Clear Storage
+document.querySelector("#clear-storage").addEventListener("click", () => {
+  const clear = confirm("Are you sure you want to clear LocalStorage");
+  if (clear == true) {
+    localStorage.clear("foodObj");
+    location.reload();
+    return false;
+  } else {
+    return;
+  }
+});
+
+const showFoodTable = (data) => {
+  const messageBox = document.querySelector("#message");
+
+  let htmlTemplate = "";
+
+  data.forEach((item) => {
+    htmlTemplate += `
+     <tr>
+          <td>${item.foodType}</td>
+          <td>${item.foodName}</td>
+          <td>${item.timeToEat}</td>
+    </tr>`;
+  });
+
+  messageBox.innerHTML = htmlTemplate;
 };
+
+//Checking the time every hour
+setInterval(() => {
+  location.reload();
+}, 1000 * 60 * 60);
 
 timeToEat();
 setInterval(getTime, 1000);

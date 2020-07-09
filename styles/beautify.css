@@ -15,9 +15,9 @@ body {
     line-height: 1.7;
     color: #777;
     box-sizing: border-box;
-    width: 100vw;
-    height: 100vh;
-    overflow-x: hidden;
+    /* width: 100vw;
+    height: 100vh; */
+    /* overflow-x: hidden; */
 }
 
 .container {
@@ -26,6 +26,15 @@ body {
     margin: 0 auto;
     padding-right: 30px;
     padding-left: 30px;
+}
+
+@media only screen and (max-width: 800px) {
+    .container {
+        width: 100%;
+        margin: 0 auto;
+        padding-right: 15px;
+        padding-left: 15px;
+    }
 }
 
 .time-boxes {
@@ -112,7 +121,7 @@ body {
 
 .form-group select {
     background: #fff;
-    border: none;
+    /* border: none; */
     box-shadow: none;
     width: 100%;
     font-size: 1.4rem;
@@ -205,6 +214,39 @@ body {
 
 .message {
     margin: 0 auto;
+    margin-bottom: 40px;
+}
+
+table {
+    width: 100%
+}
+
+thead {
+    background-color: #0eadf4;
+    color: #fff;
+    font-size: 2rem;
+}
+
+tbody {
+    color: #fff;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+tbody tr {
+    transition: all .3s ease;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #6d6d6d;
+}
+
+tbody tr:nth-child(even) {
+    background-color: #777;
+}
+
+tbody tr:hover {
+    opacity: 0.7;
 }
 
 table,
@@ -215,14 +257,26 @@ td {
     padding: 15px;
 }
 
+@media only screen and (max-width: 800px) {
+    thead {
+        font-size: 1.5rem;
+    }
+    tbody {
+        color: #fff;
+        font-size: 1.4rem;
+        font-weight: bold;
+    }
+}
+
 .footer {
     background: #072c3d;
     color: #fff;
-    height: 40px;
+    height: 60px;
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 100%;
+    text-align: center;
+    /* width: 100%; */
     /* margin-top: 60px; */
     /* position: fixed;
     bottom: 0; */
@@ -231,4 +285,20 @@ td {
 .footer p {
     font-size: 1.6rem;
     font-weight: 400;
+}
+
+.footer .coded-by {
+    text-decoration: none;
+    text-transform: uppercase;
+    font-weight: 500;
+    color: #0eadf4;
+    padding-left: 5px;
+    transition: all 0.5s ease;
+}
+
+.footer .coded-by:hover {
+    text-decoration: underline;
+    display: inline-block;
+    color: #0eadf4;
+    transform: rotate(2deg) scale(1.1);
 }
